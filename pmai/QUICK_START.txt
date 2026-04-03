@@ -1,0 +1,50 @@
+LUNAR RAILS - PERFORMANCE MANAGEMENT PLATFORM
+Quick Start Guide (30 seconds)
+
+INSTALLATION:
+1. npm install
+2. npm run db:push
+3. npm run db:seed
+4. npm run dev
+
+OPEN: http://localhost:3000
+
+LOGIN CREDENTIALS:
+
+Manager:    sarah.manager@lunarrails.io / manager123
+Employee:   alice@lunarrails.io / employee123
+HR Admin:   hr@lunarrails.io / hr123
+Admin:      admin@lunarrails.io / admin123
+
+KEY FILES:
+- app/          - All pages and API routes
+- components/   - Reusable UI components
+- lib/          - Utilities, auth, database config
+- prisma/       - Database schema
+
+IMPORTANT COMMANDS:
+npm run dev         - Start development server
+npm run db:studio   - Open database viewer
+npm run build       - Build for production
+npm run db:seed     - Reset and seed demo data
+
+FEATURES:
+✓ Monthly meetings (6 sections with values)
+✓ Quarterly reviews (3 dimensions with ratings)
+✓ Employee reflections
+✓ Meeting sign-offs
+✓ HR analytics with rating distribution
+✓ User management
+✓ Role-based access control
+
+DOCUMENTATION:
+- README.md                - Feature overview
+- SETUP.md                 - Complete setup guide
+- PROJECT_STRUCTURE.md     - File structure and architecture
+
+TECH STACK:
+Next.js 14 | TypeScript | Tailwind | shadcn/ui | Prisma | NextAuth | SQLite
+
+Database: dev.db (SQLite for development)
+
+No additional setup required - everything is ready to run!

@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String
+  role          String    @default("EMPLOYEE") // MANAGER, EMPLOYEE, HR_ADMIN, SUPER_ADMIN
+  managerId     String?
+  manager       User?     @relation("ManagerEmployees", fields: [managerId], references: [id])
+  employees     User[]    @relation("ManagerEmployees")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  managedMeetings    MeetingRecord[]      @relation("MeetingManager")
+  employeeMeetings   MeetingRecord[]      @relation("MeetingEmployee")
+  reflections        EmployeeReflection[]
+  acknowledgements   MeetingAcknowledgement[]
+}
+
+model MeetingRecord {
+  id          String   @id @default(cuid())
+  managerId   String
+  employeeId  String
+  type        String   // MONTHLY, QUARTERLY
+  meetingDate DateTime
+  status      String   @default("DRAFT") // DRAFT, SUBMITTED, ACKNOWLEDGED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  manager     User @relation("MeetingManager", fields: [managerId], references: [id])
+  employee    User @relation("MeetingEmployee", fields: [employeeId], references: [id])
+
+  monthlyMeeting  MonthlyMeeting?
+  quarterlyReview QuarterlyReview?
+  reflection      EmployeeReflection?
+  acknowledgement MeetingAcknowledgement?
+}
+
+model MonthlyMeeting {
+  id              String @id @default(cuid())
+  meetingRecordId String @unique
+  meetingRecord   MeetingRecord @relation(fields: [meetingRecordId], references: [id], onDelete: Cascade)
+
+  employeeMITs      String @default("")
+  doneWell          String @default("")
+  doneWellValues    String @default("[]") // JSON array of value keys
+  doDifferently     String @default("")
+  doDiffValues      String @default("[]") // JSON array of value keys
+  feedbackExchange  String @default("")
+  supportAlignment  String @default("")
+  nextMITs          String @default("")
+}
+
+model QuarterlyReview {
+  id              String @id @default(cuid())
+  meetingRecordId String @unique
+  meetingRecord   MeetingRecord @relation(fields: [meetingRecordId], references: [id], onDelete: Cascade)
+
+  // Dimension 1: Mastery
+  masteryRating    Int    @default(3)
+  masteryDoneWell  String @default("")
+  masteryDoBetter  String @default("")
+
+  // Dimension 2: Objectives
+  objectivesRating    Int    @default(3)
+  objectivesDoneWell  String @default("")
+  objectivesDoBetter  String @default("")
+
+  // Dimension 3: Behaviours & Values
+  behavioursRating    Int    @default(3)
+  behavioursValues    String @default("[]") // JSON array of value keys
+  behavioursDoneWell  String @default("")
+  behavioursDoBetter  String @default("")
+
+  // Overall
+  overallRating           Int    @default(3)
+  overallRatingOverride   Boolean @default(false)
+  overallRatingJustification String @default("")
+
+  // Additional fields
+  finalComments     String @default("")
+  followUpDate      String @default("")
+  nextQuarterGoals  String @default("")
+  developmentPlan   String @default("")
+  compensationFlag  Boolean @default(false)
+  compensationNotes String @default("")
+}
+
+model EmployeeReflection {
+  id              String   @id @default(cuid())
+  meetingRecordId String   @unique
+  employeeId      String
+  reflectionText  String
+  submittedAt     DateTime @default(now())
+
+  meetingRecord MeetingRecord @relation(fields: [meetingRecordId], references: [id], onDelete: Cascade)
+  employee      User          @relation(fields: [employeeId], references: [id])
+}
+
+model MeetingAcknowledgement {
+  id              String   @id @default(cuid())
+  meetingRecordId String   @unique
+  employeeId      String
+  acknowledgedAt  DateTime @default(now())
+
+  meetingRecord MeetingRecord @relation(fields: [meetingRecordId], references: [id], onDelete: Cascade)
+  employee      User          @relation(fields: [employeeId], references: [id])
+}
+
+model AppConfig {
+  id               String @id @default(cuid())
+  year             Int    @unique
+  quarterlyMonths  String @default("[3,6,9,12]") // JSON array e.g. [3, 6, 9, 12]
+  organisationName String @default("Lunar Rails")
+}
