@@ -14,7 +14,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useToast } from '@/components/ui/use-toast'
-import { Trash2 } from 'lucide-react'
 
 interface User {
   id: string
