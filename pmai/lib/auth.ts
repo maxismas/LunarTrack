@@ -54,14 +54,19 @@ const authConfig = {
   },
   callbacks: {
     async signIn({ user, account }) {
-      // For Google sign-ins, only allow users already added by an admin.
-      // This prevents any random Google account from gaining access.
+      // Auto-create Google users if they don't exist yet
       if (account?.provider === 'google') {
         const existingUser = await prisma.user.findUnique({
           where: { email: user.email! },
         })
         if (!existingUser) {
-          return false
+          await prisma.user.create({
+            data: {
+              name: user.name ?? user.email!,
+              email: user.email!,
+              role: 'EMPLOYEE',
+            },
+          })
         }
       }
       return true
