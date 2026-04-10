@@ -1,11 +1,11 @@
-import type { NextAuthConfig } from 'next-auth'
+import NextAuth, { type NextAuthConfig } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import Google from 'next-auth/providers/google'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import bcrypt from 'bcryptjs'
 import { prisma } from './db'
 
-export const authConfig = {
+const authConfig = {
   adapter: PrismaAdapter(prisma),
   providers: [
     Google({
@@ -99,3 +99,5 @@ export const authConfig = {
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
 } satisfies NextAuthConfig
+
+export const { auth, handlers, signIn, signOut } = NextAuth(authConfig)
