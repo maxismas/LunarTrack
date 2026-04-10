@@ -65,16 +65,16 @@ export function Sidebar() {
   }
 
   return (
-    <div className="flex flex-col h-full w-64 bg-white border-r border-border">
+    <div className="flex flex-col h-full w-64 bg-lunar-dark border-r border-lunar-border">
       {/* Logo */}
-      <div className="p-6 border-b border-border">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-lunar-navy rounded-lg flex items-center justify-center">
-            <span className="text-white text-sm font-bold">LT</span>
+      <div className="p-6 border-b border-lunar-border">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-lunar-accent rounded-lg flex items-center justify-center">
+            <span className="text-white text-xs font-bold">LR</span>
           </div>
           <div>
-            <h1 className="text-sm font-bold text-lunar-navy">LunarTrack</h1>
-            <p className="text-xs text-muted-foreground">by Lunar Rails</p>
+            <h1 className="text-sm font-bold text-white">LunarTrack</h1>
+            <p className="text-xs text-lunar-muted">by Lunar Rails</p>
           </div>
         </div>
       </div>
@@ -90,13 +90,13 @@ export function Sidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                'flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors',
+                'flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors',
                 isActive
-                  ? 'bg-lunar-navy text-white'
-                  : 'text-foreground hover:bg-muted'
+                  ? 'bg-lunar-accent text-white'
+                  : 'text-lunar-muted hover:text-white hover:bg-lunar-dark-2'
               )}
             >
-              <Icon size={18} />
+              <Icon size={17} />
               <span>{item.label}</span>
             </Link>
           )
@@ -104,29 +104,29 @@ export function Sidebar() {
       </nav>
 
       {/* User Profile */}
-      <div className="p-4 border-t border-border">
+      <div className="p-4 border-t border-lunar-border">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
-              className="w-full justify-between px-3 h-auto py-2"
+              className="w-full justify-between px-3 h-auto py-2 hover:bg-lunar-dark-2 text-white"
             >
               <div className="flex items-center gap-3 text-left">
                 <Avatar className="h-8 w-8">
-                  <AvatarFallback className="bg-lunar-navy text-white text-xs">
+                  <AvatarFallback className="bg-lunar-accent text-white text-xs">
                     {getInitials(session.user.name || 'User')}
                   </AvatarFallback>
                 </Avatar>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold truncate">
+                  <p className="text-sm font-semibold truncate text-white">
                     {session.user.name}
                   </p>
-                  <p className="text-xs text-muted-foreground truncate">
+                  <p className="text-xs text-lunar-muted truncate">
                     {session.user.role}
                   </p>
                 </div>
               </div>
-              <ChevronDown size={16} />
+              <ChevronDown size={16} className="text-lunar-muted" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">

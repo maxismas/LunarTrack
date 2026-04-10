@@ -64,26 +64,30 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-lunar-navy to-lunar-blue flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-6">
+    <div className="min-h-screen bg-lunar-black flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Background glow effects */}
+      <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-lunar-accent opacity-10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[400px] h-[400px] bg-lunar-accent-2 opacity-10 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="w-full max-w-md space-y-6 relative z-10">
         <div className="text-center space-y-2 mb-8">
-          <div className="inline-block bg-white rounded-lg p-3 mb-4">
-            <div className="text-2xl font-bold text-lunar-navy">LR</div>
+          <div className="inline-flex items-center justify-center w-14 h-14 bg-lunar-dark-2 border border-lunar-border rounded-2xl mb-4">
+            <span className="text-xl font-bold text-white">LR</span>
           </div>
-          <h1 className="text-3xl font-bold text-white">LunarTrack</h1>
-          <p className="text-lunar-blue-200">Performance Management by Lunar Rails</p>
+          <h1 className="text-3xl font-bold text-white tracking-tight">LunarTrack</h1>
+          <p className="text-lunar-muted text-sm">Performance Management by Lunar Rails</p>
         </div>
 
-        <Card className="border-0 shadow-2xl">
-          <CardHeader className="space-y-2">
-            <CardTitle className="text-2xl">Welcome Back</CardTitle>
-            <CardDescription>Sign in to your account to continue</CardDescription>
+        <Card className="border border-lunar-border bg-lunar-dark shadow-2xl">
+          <CardHeader className="space-y-1 pb-4">
+            <CardTitle className="text-xl text-white">Welcome back</CardTitle>
+            <CardDescription className="text-lunar-muted">Sign in to your account to continue</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <Button
               type="button"
               variant="outline"
-              className="w-full flex items-center gap-3"
+              className="w-full flex items-center gap-3 bg-lunar-dark-2 border-lunar-border text-white hover:bg-lunar-dark-3 hover:border-lunar-muted"
               onClick={handleGoogleSignIn}
               disabled={googleLoading || loading}
             >
@@ -98,16 +102,16 @@ export default function LoginPage() {
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
+                <span className="w-full border-t border-lunar-border" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-muted-foreground">Or sign in with password</span>
+                <span className="bg-lunar-dark px-2 text-lunar-muted">Or sign in with password</span>
               </div>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-lunar-off-white text-sm">Email</Label>
                 <Input
                   id="email"
                   type="email"
@@ -116,11 +120,12 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   disabled={loading || googleLoading}
+                  className="bg-lunar-dark-2 border-lunar-border text-white placeholder:text-lunar-muted focus:border-lunar-accent"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="text-lunar-off-white text-sm">Password</Label>
                 <Input
                   id="password"
                   type="password"
@@ -129,12 +134,13 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   disabled={loading || googleLoading}
+                  className="bg-lunar-dark-2 border-lunar-border text-white placeholder:text-lunar-muted focus:border-lunar-accent"
                 />
               </div>
 
               <Button
                 type="submit"
-                className="w-full bg-lunar-navy hover:bg-lunar-navy-dark text-white"
+                className="w-full bg-lunar-accent hover:bg-lunar-accent-hover text-white font-medium"
                 disabled={loading || googleLoading}
               >
                 {loading ? 'Signing in...' : 'Sign In'}
