@@ -38,3 +38,4 @@ dev.db-journal
 .idea
 *.swp
 *.swo
+.vercel
